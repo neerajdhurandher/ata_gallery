@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.neeraj_atg_gallery.models.Photo;
+import com.example.neeraj_atg_gallery.models.Photos;
 
 import java.util.List;
 
@@ -42,30 +44,38 @@ public class AdapterPhotos extends RecyclerView.Adapter<AdapterPhotos.photoViewH
     @Override
     public void onBindViewHolder(@NonNull photoViewHolder holder, int i) {
 
-        if(i == photoList.size() -2 ){
+
+//        if(photoList.get(i).getIsfamily() == 1) {
+            String photoUrl1 = photoList.get(i).getUrlS();
+
+            String title = photoList.get(i).getTitle();
+
+            Log.d("photo_num", String.valueOf(i));
 
 
-        }
+            try {
+                Glide.with(context).load(photoUrl1).into(holder.showphoto1);
+            } catch (Exception e) {
+                Glide.with(context).load(R.drawable.ic_photo_asset_foreground).into(holder.showphoto1);
+            }
 
 
-        String photoUrl = photoList.get(i).getUrlS();
-        String title = photoList.get(i).getTitle();
 
-        try {
-            Glide.with(context).load(photoUrl).circleCrop().into(holder.showphoto);
-        }
-        catch (Exception e){
-            Glide.with(context).load(R.drawable.ic_photo_asset_foreground).circleCrop().into(holder.showphoto);
-        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent clicked_photo = new Intent( context,Photo_Details_Activity.class);
 
+                clicked_photo.putExtra("photo",photoUrl1);
+                clicked_photo.putExtra("title",photoList.get(i).getTitle());
+                clicked_photo.putExtra("owner",photoList.get(i).getOwner());
+                clicked_photo.putExtra("id",photoList.get(i).getId());
+
                 context.startActivity(clicked_photo);
             }
         });
 
+//        }
     }
 
     @Override
@@ -73,14 +83,23 @@ public class AdapterPhotos extends RecyclerView.Adapter<AdapterPhotos.photoViewH
         return photoList.size();
     }
 
+    public Object getItem(int position) {
+        return null;
+    }
+
+    public long getItemId(int position) {
+        return 0;
+    }
+
     class photoViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView showphoto;
+        ImageView showphoto1;
 
         public photoViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            showphoto = itemView.findViewById(R.id.imageView);
+            showphoto1 = itemView.findViewById(R.id.imageView1);
+
         }
     }
 
