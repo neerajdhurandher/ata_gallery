@@ -15,7 +15,8 @@
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:background="@drawable/photo_corner_bg"
-        android:padding="2dp"
+       android:scaleType="fitXY"
+        android:padding="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
